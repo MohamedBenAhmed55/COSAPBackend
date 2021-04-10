@@ -15,27 +15,23 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 #[ApiResource]
-class User implements UserInterface,\JsonSerializable
+class User implements UserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("api")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups("api")
-     * @Groups("api")
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups("api")
-     * @Groups("api")
+     *
      */
     private $roles = [];
 
@@ -47,7 +43,7 @@ class User implements UserInterface,\JsonSerializable
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("api")
+     * 
      */
     private $email;
 
@@ -575,15 +571,5 @@ class User implements UserInterface,\JsonSerializable
         }
 
         return $this;
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'matricule'  => $this->matricule,
-            'nom'        => $this->nom,
-            'email'      => $this->email,
-            'phone'      => $this->phone,
-        ];
     }
 }
