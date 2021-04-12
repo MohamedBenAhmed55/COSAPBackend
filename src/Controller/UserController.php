@@ -22,16 +22,7 @@ class UserController extends AbstractController
     {
         return $this->render('user/login.html.twig');
     }
-
-
-   /**
-     * @Route("/login", name="api_login", methods={"POST"})
-     */
-     public function login()
-     {  
-       return $this->json(['result' => true]);
-     }
-
+  
    /**
      * @Route("/profile", name="api_profile")
      * @IsGranted("ROLE_USER")
