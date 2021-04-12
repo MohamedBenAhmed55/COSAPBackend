@@ -143,7 +143,7 @@ class User implements UserInterface
     private $poste;
 
     /**
-     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="id_user_emmetteur")
+     * @ORM\OneToMany(targetEntity=Notification::class, mappedBy="id_user_recepteur")
      */
     private $notifications;
 
@@ -525,7 +525,7 @@ class User implements UserInterface
     {
         if (!$this->notifications->contains($notification)) {
             $this->notifications[] = $notification;
-            $notification->setIdUserEmmetteur($this);
+            $notification->setIdUserRecepteur($this);
         }
 
         return $this;
@@ -535,8 +535,8 @@ class User implements UserInterface
     {
         if ($this->notifications->removeElement($notification)) {
             // set the owning side to null (unless already changed)
-            if ($notification->getIdUserEmmetteur() === $this) {
-                $notification->setIdUserEmmetteur(null);
+            if ($notification->getIdUserRecepteur() === $this) {
+                $notification->setIdUserRecepteur(null);
             }
         }
 

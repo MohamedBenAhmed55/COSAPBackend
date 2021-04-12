@@ -37,11 +37,6 @@ class Notification
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="notifications")
      */
-    private $id_user_emmetteur;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="notifications")
-     */
     private $id_user_recepteur;
 
     public function getId(): ?int
@@ -85,17 +80,6 @@ class Notification
         return $this;
     }
 
-    public function getIdUserEmmetteur(): ?User
-    {
-        return $this->id_user_emmetteur;
-    }
-
-    public function setIdUserEmmetteur(?User $id_user_emmetteur): self
-    {
-        $this->id_user_emmetteur = $id_user_emmetteur;
-
-        return $this;
-    }
 
     public function getIdUserRecepteur(): ?User
     {
