@@ -1,8 +1,11 @@
 <?php
 
+namespace App\EventListener;
+
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
-
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 
 class JWTCreatedListener{
 
@@ -12,11 +15,19 @@ class JWTCreatedListener{
 private $requestStack;
 
 /**
+ * 
+ *
+ * @var EntityManagerInterface
+ */
+private $em;
+
+/**
  * @param RequestStack $requestStack
  */
-public function __construct(RequestStack $requestStack)
+public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
 {
     $this->requestStack = $requestStack;
+    $this->em = $em;
 }
 
 /**
@@ -30,6 +41,10 @@ public function onJWTCreated(JWTCreatedEvent $event)
 
     $payload       = $event->getData();
     $payload['ip'] = $request->getClientIp();
+
+    // $this->em->getrep(User::class)->findBy(['username'=>$payload['username']]);
+    $user = $this->em->getRepository(User::class)->findOneby(['username'=>$payload['username']]);
+    $payload['company'] = $user->getCompany();
 
     $event->setData($payload);
     
