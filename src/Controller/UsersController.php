@@ -6,8 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/api")
@@ -53,5 +56,12 @@ class UsersController extends AbstractController
         $data->setPassword($encoded);
 
         return $data;
+    }
+
+    public function getTokenUser(UserInterface $user, JWTTokenManagerInterface $JWTManager)
+    {
+        // ...
+
+        return new JsonResponse(['token' => $JWTManager->create($user)]);
     }
 }
