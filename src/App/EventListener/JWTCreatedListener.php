@@ -6,6 +6,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Cast\String_;
 
 class JWTCreatedListener{
 
@@ -43,9 +44,13 @@ public function onJWTCreated(JWTCreatedEvent $event)
     $payload['ip'] = $request->getClientIp();
 
     // $this->em->getrep(User::class)->findBy(['username'=>$payload['username']]);
-    $user = $this->em->getRepository(User::class)->findOneby(['username'=>$payload['username']]);
-    $payload['company'] = $user->getCompany();
+    // $user = $this->em->getRepository(User::class)->findOneby(['username'=>$payload['username']]);
 
+     /** @var $user \App\Entity\User */
+     $user = $this->em->getRepository(User::class)->findOneby(['username'=>$payload['username']]);
+
+    $payload['company'] =$user->getCompany()->getId();
+    $payload['test']= $payload['username'];
     $event->setData($payload);
     
     $header        = $event->getHeader();

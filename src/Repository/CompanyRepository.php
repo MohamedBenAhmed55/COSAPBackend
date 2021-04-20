@@ -19,22 +19,21 @@ class CompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, Company::class);
     }
 
-    // /**
-    //  * @return Company[] Returns an array of Company objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Company[] Returns an array of Company objects
+     */    
+    public function FindCompanyNames()
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT c.name
+            FROM App\Entity\Company c
+            ORDER BY p.id ASC'
+        );
+        return $query->getResult();
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Company

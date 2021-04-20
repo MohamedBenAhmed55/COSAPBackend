@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use App\Repository\EvenementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=EvenementRepository::class)
  */
+#[ApiResource]
 class Evenement
 {
     /**

@@ -8,11 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
+
 /**
  * @ORM\Entity(repositoryClass=CompanyRepository::class)
  */
 #[ApiResource]
-class Company
+class Company implements \Serializable
 {
     /**
      * @ORM\Id
@@ -525,4 +526,22 @@ class Company
 
         return $this;
     }
+
+    public function serialize(){
+        return serialize([
+
+            $this->name
+
+
+        ]);
+        }
+ 
+     public function unserialize($string)
+     {
+         list (
+
+            $this->name
+
+         ) = unserialize($string, ['allowed_classes' => false]);
+     }
 }
