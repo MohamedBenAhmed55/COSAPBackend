@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class UsersController extends AbstractController
 {
-  /**
+    /**
      * @Route(
      *     name="api_users_post",
      *     path="/users",

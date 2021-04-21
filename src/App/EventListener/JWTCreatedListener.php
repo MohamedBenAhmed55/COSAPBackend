@@ -8,55 +8,51 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Node\Expr\Cast\String_;
 
-class JWTCreatedListener{
-
-/**
- * @var RequestStack
- */
-private $requestStack;
-
-/**
- * 
- *
- * @var EntityManagerInterface
- */
-private $em;
-
-/**
- * @param RequestStack $requestStack
- */
-public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
+class JWTCreatedListener
 {
-    $this->requestStack = $requestStack;
-    $this->em = $em;
-}
 
-/**
- * @param JWTCreatedEvent $event
- *
- * @return void
- */
-public function onJWTCreated(JWTCreatedEvent $event)
-{
-    $request = $this->requestStack->getCurrentRequest();
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
 
-    $payload       = $event->getData();
-    $payload['ip'] = $request->getClientIp();
+    /**
+     * 
+     *
+     * @var EntityManagerInterface
+     */
+    private $em;
 
-    // $this->em->getrep(User::class)->findBy(['username'=>$payload['username']]);
-    // $user = $this->em->getRepository(User::class)->findOneby(['username'=>$payload['username']]);
+    /**
+     * @param RequestStack $requestStack
+     */
+    public function __construct(RequestStack $requestStack, EntityManagerInterface $em)
+    {
+        $this->requestStack = $requestStack;
+        $this->em = $em;
+    }
 
-     /** @var $user \App\Entity\User */
-     $user = $this->em->getRepository(User::class)->findOneby(['username'=>$payload['username']]);
+    /**
+     * @param JWTCreatedEvent $event
+     *
+     * @return void
+     */
+    public function onJWTCreated(JWTCreatedEvent $event)
+    {
+        $request = $this->requestStack->getCurrentRequest();
 
-    $payload['company'] =$user->getCompany()->getId();
-    $payload['test']= $payload['username'];
-    $event->setData($payload);
-    
-    $header        = $event->getHeader();
-    $header['cty'] = 'JWT';
+        $payload       = $event->getData();
+        $payload['ip'] = $request->getClientIp();
 
-    $event->setHeader($header);
-}
+        // $this->em->getrep(User::class)->findBy(['username'=>$payload['username']]);
+        // $user = $this->em->getRepository(User::class)->findOneby(['username'=>$payload['username']]);
 
+        /** @var $user \App\Entity\User */
+        $user = $this->em->getRepository(User::class)->findOneby(['username' => $payload['username']]);
+
+        $payload['company'] = $user->getCompany()->getId();
+        $event->setData($payload);
+        $header        = $event->getHeader();
+        $event->setHeader($header);
+    }
 }

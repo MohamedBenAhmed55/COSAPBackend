@@ -13,8 +13,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\User;
 
 class UserController extends AbstractController
-{ 
-    
+{
+
     /**
      * @Route("/user", name="user")
      */
@@ -22,38 +22,39 @@ class UserController extends AbstractController
     {
         return $this->render('user/login.html.twig');
     }
-  
-   /**
+
+    /**
      * @Route("/profile", name="api_profile")
      * @IsGranted("ROLE_USER")
      */
-public function profile()
-{
-    return $this->json([
-        'user' => $this->getUser()
-     ], 
-     200, 
-     [], 
-     [
-        'groups' => ['api']
-     ]
-  );
-}
+    public function profile()
+    {
+        return $this->json(
+            [
+                'user' => $this->getUser()
+            ],
+            200,
+            [],
+            [
+                'groups' => ['api']
+            ]
+        );
+    }
 
-     /**
+    /**
      * @Route("/api/modifypassword", name="api_modif_pass" , methods={"POST"})
      */
-    public function modifypass(Request $request){
-        $modify_user= json_decode(
+    public function modifypass(Request $request)
+    {
+        $modify_user = json_decode(
             $request->getContent(),
             true
         );
 
-        $user= $this->repository->find($modify_user->id);
+        $user = $this->repository->find($modify_user->id);
         $user->setPassword($modify_user->password);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
-        
     }
 }
