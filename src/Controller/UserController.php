@@ -17,31 +17,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class UserController extends AbstractController
 {
 
-    /**
-     * @Route("/user", name="user")
-     */
-    public function index(): Response
-    {
-        return $this->render('user/login.html.twig');
-    }
-
-    /**
-     * @Route("/profile", name="api_profile")
-     * @IsGranted("ROLE_USER")
-     */
-    public function profile()
-    {
-        return $this->json(
-            [
-                'user' => $this->getUser()
-            ],
-            200,
-            [],
-            [
-                'groups' => ['api']
-            ]
-        );
-    }
 
     /**
      * @Route("/api/modifypassword", name="api_modif_pass" , methods={"POST"})
@@ -65,7 +40,7 @@ class UserController extends AbstractController
      */
     public function getSingleUser(EntityManagerInterface $em, Request $request, $id): Response
     {
-       
+
 
         $user = $em->getRepository(User::class)->find($id);
         $name = $user->getNom();
@@ -74,10 +49,10 @@ class UserController extends AbstractController
         $email = $user->getEmail();
         $cin = $user->getCin();
         $datenais = $user->getDateNai();
-        $adresse= $user->getAdresse();
+        $adresse = $user->getAdresse();
         $date_embauche = $user->getDateEmbauche();
         $phone = $user->getPhone();
-        $fax= $user->getFax();
+        $fax = $user->getFax();
         $image = $user->getImage();
         $matricule = $user->getMatricule();
         $poste = $user->getPoste()->getName();
@@ -91,14 +66,34 @@ class UserController extends AbstractController
             'datenais' => $datenais,
             'dateemb' => $date_embauche,
             'phone' => $phone,
-            'fax'=>$fax,
+            'fax' => $fax,
             'image' => $image,
             'matricule' => $matricule,
             'poste' => $poste,
-            'adresse'=> $adresse,
+            'adresse' => $adresse,
         ]));
         $response->headers->set('Content-Type', 'application/json');
-        // $response->setContent($request);
+        return ($response);
+    }
+
+
+    /**
+     * @Route("/api/getusername/{id}", name="get_username"  , methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function getUsername(EntityManagerInterface $em, Request $request, $id): Response
+    {
+
+        $user = $em->getRepository(User::class)->find($id);
+        $name = $user->getNom();
+        $lastname = $user->getPrenom();
+        
+        $response = new Response();
+        $response->setContent(json_encode([
+            'name' => $name,
+            'lastname' => $lastname,
+            
+        ]));
+        $response->headers->set('Content-Type', 'application/json');
         return ($response);
     }
 }

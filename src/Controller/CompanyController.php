@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Entity\Groupe;
 use App\Entity\Poste;
 use App\Entity\Salle;
 use App\Entity\User;
@@ -89,15 +90,37 @@ class CompanyController extends AbstractController
         return ($response);
     }
 
-    /**
-     * @Route("/api/getsingleuser", name="get_single_user"  , methods={"GET"})
+     /**
+     * @Route("/api/groupes_Names", name="groupes_Names", methods={"GET"})
      */
-    public function getSingleUser(EntityManagerInterface $em): JsonResponse{
-
-        $user = $em->getRepository(User::class)->find(13);
+    public function GetGroupByName(EntityManagerInterface $em): JsonResponse
+    {
+        $groupes = $em->getRepository(Groupe::class)->findAll();
+        $groupesData = array();
+        for ($i = 0; $i < sizeof($groupes); $i++) {
+            $test = array(
+                'name' => $groupes[$i]->getName(),
+                'id' => $groupes[$i]->getId()
+            );
+            array_push($groupesData, $test);
+        }
         $response = new JsonResponse();
-        $response->setData(['data' => $user]);
+        $response->setData(['data' => $groupesData]);
         return ($response);
     }
+
+    // /**
+    //  * @Route("/api/getsingleuser", name="get_single_user"  , methods={"GET"})
+    //  */
+    // public function getSingleUser(EntityManagerInterface $em): JsonResponse{
+
+    //     $user = $em->getRepository(User::class)->find(13);
+    //     $response = new JsonResponse();
+    //     $response->setData(['data' => $user]);
+    //     return ($response);
+    // }
+
+
+    
 
 }

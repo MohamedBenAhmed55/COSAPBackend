@@ -49,6 +49,22 @@ class UsersController extends AbstractController
     {
         return $this->encodePassword($data, $encoder);
     }
+    /**
+     * @Route(
+     *     name="api_users_patch",
+     *     path="/users/{id}",
+     *     requirements={"id"="\d+"},
+     *     methods={"PATCH"},
+     *     defaults={
+     *         "_api_resource_class"=User::class,
+     *         "_api_item_operation_name"="patch"
+     *     }
+     * )
+     */
+    public function patchAction(User $data, UserPasswordEncoderInterface $encoder): User
+    {
+        return $this->encodePassword($data, $encoder);
+    }
 
     protected function encodePassword(User $data, UserPasswordEncoderInterface $encoder): User
     {
