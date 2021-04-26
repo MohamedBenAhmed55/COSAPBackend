@@ -41,6 +41,11 @@ class ChefGroupe
      */
     private $groupes;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     */
+    private $user_id;
+
     public function __construct()
     {
         $this->groupes = new ArrayCollection();
@@ -113,6 +118,18 @@ class ChefGroupe
                 $groupe->setChef(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(?User $user_id): self
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }

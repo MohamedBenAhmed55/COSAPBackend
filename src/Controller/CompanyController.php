@@ -109,6 +109,25 @@ class CompanyController extends AbstractController
         return ($response);
     }
 
+     /**
+     * @Route("/api/users_Names", name="users_Names", methods={"GET"})
+     */
+    public function GetUserByName(EntityManagerInterface $em): JsonResponse
+    {
+        $users = $em->getRepository(User::class)->findAll();
+        $usersData = array();
+        for ($i = 0; $i < sizeof($users); $i++) {
+            $test = array(
+                'name' => $users[$i]->getNom() . ' ' .$users[$i]->getPrenom() ,
+                'id' => $users[$i]->getId()
+            );
+            array_push($usersData, $test);
+        }
+        $response = new JsonResponse();
+        $response->setData(['data' => $usersData]);
+        return ($response);
+    }
+
     // /**
     //  * @Route("/api/getsingleuser", name="get_single_user"  , methods={"GET"})
     //  */
