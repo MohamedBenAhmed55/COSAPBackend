@@ -152,12 +152,18 @@ class User implements UserInterface
      */
     private $taches;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Evenement::class, mappedBy="invited_users")
+     */
+    private $evenements;
+
     public function __construct()
     {
         $this->autorisations = new ArrayCollection();
         $this->conges = new ArrayCollection();
         $this->taches = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->evenements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -568,6 +574,33 @@ class User implements UserInterface
             if ($tach->getUserDestinataire() === $this) {
                 $tach->setUserDestinataire(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Evenement[]
+     */
+    public function getEvenements(): Collection
+    {
+        return $this->evenements;
+    }
+
+    public function addEvenement(Evenement $evenement): self
+    {
+        if (!$this->evenements->contains($evenement)) {
+            $this->evenements[] = $evenement;
+            $evenement->addInvitedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvenement(Evenement $evenement): self
+    {
+        if ($this->evenements->removeElement($evenement)) {
+            $evenement->removeInvitedUser($this);
         }
 
         return $this;

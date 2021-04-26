@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EvenementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 
@@ -63,6 +65,17 @@ class Evenement
      * @ORM\ManyToOne(targetEntity=Salle::class, inversedBy="evenements")
      */
     private $salle;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="evenements")
+     * 
+     */
+    private $invited_users;
+
+    public function __construct()
+    {
+        $this->invited_users = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -173,6 +186,30 @@ class Evenement
     public function setSalle(?Salle $salle): self
     {
         $this->salle = $salle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getInvitedUsers(): Collection
+    {
+        return $this->invited_users;
+    }
+
+    public function addInvitedUser(User $invitedUser): self
+    {
+        if (!$this->invited_users->contains($invitedUser)) {
+            $this->invited_users[] = $invitedUser;
+        }
+
+        return $this;
+    }
+
+    public function removeInvitedUser(User $invitedUser): self
+    {
+        $this->invited_users->removeElement($invitedUser);
 
         return $this;
     }
