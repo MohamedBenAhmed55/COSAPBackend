@@ -49,6 +49,7 @@ class UsersController extends AbstractController
     {
         return $this->encodePassword($data, $encoder);
     }
+    
     /**
      * @Route(
      *     name="api_users_patch",

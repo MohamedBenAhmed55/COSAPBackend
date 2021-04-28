@@ -19,23 +19,6 @@ class UserController extends AbstractController
 
 
     /**
-     * @Route("/api/modifypassword", name="api_modif_pass" , methods={"POST"})
-     */
-    public function modifypass(Request $request)
-    {
-        $modify_user = json_decode(
-            $request->getContent(),
-            true
-        );
-
-        $user = $this->repository->find($modify_user->id);
-        $user->setPassword($modify_user->password);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
-    }
-
-    /**
      * @Route("/api/getsingleuser/{id}", name="get_single_user"  , methods={"GET"}, requirements={"id"="\d+"})
      */
     public function getSingleUser(EntityManagerInterface $em, Request $request, $id): Response
