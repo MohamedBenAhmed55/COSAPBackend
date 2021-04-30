@@ -26,6 +26,7 @@ class UserController extends AbstractController
 
 
         $user = $em->getRepository(User::class)->find($id);
+        $idd = $id;
         $name = $user->getNom();
         $lastname = $user->getPrenom();
         $username = $user->getUsername();
@@ -41,6 +42,7 @@ class UserController extends AbstractController
         $poste = $user->getPoste()->getName();
         $response = new Response();
         $response->setContent(json_encode([
+            'id' => $idd,
             'name' => $name,
             'lastname' => $lastname,
             'username' => $username,

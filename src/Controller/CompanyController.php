@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ChefGroupe;
 use App\Entity\Company;
 use App\Entity\Groupe;
 use App\Entity\Poste;
@@ -126,18 +127,24 @@ class CompanyController extends AbstractController
         $response = new JsonResponse();
         $response->setData(['data' => $usersData]);
         return ($response);
+    }    
+     /**
+     * @Route("/api/chefs_Names", name="chefs_Names", methods={"GET"})
+     */
+    public function GetChefByName(EntityManagerInterface $em): JsonResponse
+    {
+        $chefs = $em->getRepository(ChefGroupe::class)->findAll();
+        $chefsData = array();
+        for ($i = 0; $i < sizeof($chefs); $i++) {
+            $test = array(
+                'id' => $chefs[$i]->getId()
+            );
+            array_push($chefsData, $test);
+        }
+        $response = new JsonResponse();
+        $response->setData(['data' => $chefsData]);
+        return ($response);
     }
-
-    // /**
-    //  * @Route("/api/getsingleuser", name="get_single_user"  , methods={"GET"})
-    //  */
-    // public function getSingleUser(EntityManagerInterface $em): JsonResponse{
-
-    //     $user = $em->getRepository(User::class)->find(13);
-    //     $response = new JsonResponse();
-    //     $response->setData(['data' => $user]);
-    //     return ($response);
-    // }
 
     
 
