@@ -157,6 +157,11 @@ class User implements UserInterface
      */
     private $evenements;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EventUser::class, mappedBy="Users")
+     */
+    private $eventUsers;
+
     public function __construct()
     {
         $this->autorisations = new ArrayCollection();
@@ -164,6 +169,7 @@ class User implements UserInterface
         $this->taches = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->evenements = new ArrayCollection();
+        $this->eventUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -601,6 +607,36 @@ class User implements UserInterface
     {
         if ($this->evenements->removeElement($evenement)) {
             $evenement->removeInvitedUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventUser[]
+     */
+    public function getEventUsers(): Collection
+    {
+        return $this->eventUsers;
+    }
+
+    public function addEventUser(EventUser $eventUser): self
+    {
+        if (!$this->eventUsers->contains($eventUser)) {
+            $this->eventUsers[] = $eventUser;
+            $eventUser->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventUser(EventUser $eventUser): self
+    {
+        if ($this->eventUsers->removeElement($eventUser)) {
+            // set the owning side to null (unless already changed)
+            if ($eventUser->getUsers() === $this) {
+                $eventUser->setUsers(null);
+            }
         }
 
         return $this;

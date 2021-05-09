@@ -72,9 +72,15 @@ class Evenement
      */
     private $invited_users;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EventUser::class, mappedBy="Evenement")
+     */
+    private $eventUsers;
+
     public function __construct()
     {
         $this->invited_users = new ArrayCollection();
+        $this->eventUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -210,6 +216,36 @@ class Evenement
     public function removeInvitedUser(User $invitedUser): self
     {
         $this->invited_users->removeElement($invitedUser);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventUser[]
+     */
+    public function getEventUsers(): Collection
+    {
+        return $this->eventUsers;
+    }
+
+    public function addEventUser(EventUser $eventUser): self
+    {
+        if (!$this->eventUsers->contains($eventUser)) {
+            $this->eventUsers[] = $eventUser;
+            $eventUser->setEvenement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventUser(EventUser $eventUser): self
+    {
+        if ($this->eventUsers->removeElement($eventUser)) {
+            // set the owning side to null (unless already changed)
+            if ($eventUser->getEvenement() === $this) {
+                $eventUser->setEvenement(null);
+            }
+        }
 
         return $this;
     }

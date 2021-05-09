@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EvenementUserRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,41 +19,55 @@ class EventUser
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Evenement::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Evenement::class, inversedBy="eventUsers")
      */
-    private $evenement;
+    private $Evenement;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="eventUsers")
      */
-    private $user_id;
+    private $Users;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $participants = [];
 
     public function getEvenement(): ?Evenement
     {
-        return $this->evenement;
+        return $this->Evenement;
     }
 
-    public function setEvenement(?Evenement $evenement): self
+    public function setEvenement(?Evenement $Evenement): self
     {
-        $this->evenement = $evenement;
+        $this->Evenement = $Evenement;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUsers(): ?User
     {
-        return $this->user_id;
+        return $this->Users;
     }
 
-    public function setUserId(?User $user_id): self
+    public function setUsers(?User $Users): self
     {
-        $this->user_id = $user_id;
+        $this->Users = $Users;
 
         return $this;
     }
+
+    public function getParticipants(): ?array
+    {
+        return $this->participants;
+    }
+
+    public function setParticipants(array $participants): self
+    {
+        $this->participants = $participants;
+
+        return $this;
+    }
+
+ 
 }
