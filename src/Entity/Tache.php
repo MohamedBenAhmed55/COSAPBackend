@@ -59,6 +59,11 @@ class Tache
      */
     private $company;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $userId;
+
 
     
 
@@ -159,6 +164,18 @@ class Tache
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getUserId(): ?string
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(string $userId): self
+    {
+        $this->userId = $userId;
 
         return $this;
     }
