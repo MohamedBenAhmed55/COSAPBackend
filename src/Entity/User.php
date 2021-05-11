@@ -83,7 +83,7 @@ class User implements UserInterface
     private $Adresse;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
     private $Salaire;
 
@@ -344,12 +344,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSalaire(): ?float
+    public function getSalaire(): ?int
     {
         return $this->Salaire;
     }
 
-    public function setSalaire(float $Salaire): self
+    public function setSalaire(int $Salaire): self
     {
         $this->Salaire = $Salaire;
 
