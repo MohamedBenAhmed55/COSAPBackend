@@ -7,7 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Conge;
 use App\Entity\JoursFeries;
+use App\Entity\PersonalEvent;
 use App\Entity\Tache;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -50,6 +52,24 @@ class CalendarController extends AbstractController
             );
             array_push($Data, $test2);
         }
+
+        $PersonalEvents=$em->getRepository(PersonalEvent::class)->findBy(['user' => $id]);
+
+        for($i = 0;$i<sizeof($PersonalEvents);$i++){
+            $test3 = array(
+                'titre' =>$PersonalEvents[$i]->getTitle(),
+                'date' => $PersonalEvents[$i]->getDate(),
+            );
+            array_push($Data, $test3);
+        }
+
+        $user =$em->getRepository(User::class)->findBy(['id' => $id]);
+        $test4 =array(
+            'titre' =>" Anniversaire ",
+            'date' =>$user[0]->getDateNai(),
+        );
+        array_push($Data,$test4);
+
 
         $response = new JsonResponse();
         $response->setData(['data' => $Data]);

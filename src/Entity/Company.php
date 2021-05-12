@@ -112,6 +112,11 @@ class Company implements \Serializable
      */
     private $taches;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PersonalEvent::class, mappedBy="company")
+     */
+    private $personalEvents;
+
     public function __construct()
     {
         $this->joursFeries = new ArrayCollection();
@@ -124,6 +129,7 @@ class Company implements \Serializable
         $this->autorisations = new ArrayCollection();
         $this->conges = new ArrayCollection();
         $this->taches = new ArrayCollection();
+        $this->personalEvents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -543,5 +549,35 @@ class Company implements \Serializable
             $this->name
 
          ) = unserialize($string, ['allowed_classes' => false]);
+     }
+
+     /**
+      * @return Collection|PersonalEvent[]
+      */
+     public function getPersonalEvents(): Collection
+     {
+         return $this->personalEvents;
+     }
+
+     public function addPersonalEvent(PersonalEvent $personalEvent): self
+     {
+         if (!$this->personalEvents->contains($personalEvent)) {
+             $this->personalEvents[] = $personalEvent;
+             $personalEvent->setCompany($this);
+         }
+
+         return $this;
+     }
+
+     public function removePersonalEvent(PersonalEvent $personalEvent): self
+     {
+         if ($this->personalEvents->removeElement($personalEvent)) {
+             // set the owning side to null (unless already changed)
+             if ($personalEvent->getCompany() === $this) {
+                 $personalEvent->setCompany(null);
+             }
+         }
+
+         return $this;
      }
 }
