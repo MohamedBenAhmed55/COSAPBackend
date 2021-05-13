@@ -46,6 +46,16 @@ class ChefGroupe
      */
     private $user_id;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $groupname;
+
     public function __construct()
     {
         $this->groupes = new ArrayCollection();
@@ -130,6 +140,30 @@ class ChefGroupe
     public function setUserId(?User $user_id): self
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getGroupname(): ?string
+    {
+        return $this->groupname;
+    }
+
+    public function setGroupname(string $groupname): self
+    {
+        $this->groupname = $groupname;
 
         return $this;
     }

@@ -81,7 +81,7 @@ class CompanyController extends AbstractController
         $postesData = array();
         for ($i = 0; $i < sizeof($postes); $i++) {
             $test = array(
-                'name' => $postes[$i]->getNom(),
+                'name' => $postes[$i]->getName(),
                 'id' => $postes[$i]->getId()
             );
             array_push($postesData, $test);

@@ -49,6 +49,7 @@ class CalendarController extends AbstractController
             $test2 = array(
                 'titre' =>$Taches[$i]->getLibelle(),
                 'date' => $Taches[$i]->getDateFin(),
+                'description' =>$Taches[$i]->getDescription(),
             );
             array_push($Data, $test2);
         }
