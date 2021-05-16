@@ -52,6 +52,7 @@ class JWTCreatedListener
 
         $payload['company'] = $user->getCompany()->getId();
         $payload['UserId'] = $user->getId();
+        $payload['group'] = $user->getGroupe()->getId();
         $event->setData($payload);
         $header        = $event->getHeader();
         $event->setHeader($header);

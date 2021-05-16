@@ -59,6 +59,11 @@ class Conge
      */
     private $company;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $groupee;
+
 
     public function getId(): ?int
     {
@@ -157,6 +162,18 @@ class Conge
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getGroupee(): ?string
+    {
+        return $this->groupee;
+    }
+
+    public function setGroupee(string $groupee): self
+    {
+        $this->groupee = $groupee;
 
         return $this;
     }
