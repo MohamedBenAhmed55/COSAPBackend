@@ -41,10 +41,10 @@ class StatisticsController extends AbstractController
             
         }
         $test = array(
-            'Présent' =>$present,
-            'En congé' => $conge,
-            'En mission' => $mission,
-            'En intérim' => $intérim,
+            'present' =>$present,
+            'conge' => $conge,
+            'mission' => $mission,
+            'interim' => $intérim,
         );
         array_push($Data, $test);
         
