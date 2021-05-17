@@ -64,6 +64,11 @@ class Tache
      */
     private $userId;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Etat;
+
 
     
 
@@ -176,6 +181,18 @@ class Tache
     public function setUserId(string $userId): self
     {
         $this->userId = $userId;
+
+        return $this;
+    }
+
+    public function getEtat(): ?string
+    {
+        return $this->Etat;
+    }
+
+    public function setEtat(string $Etat): self
+    {
+        $this->Etat = $Etat;
 
         return $this;
     }
