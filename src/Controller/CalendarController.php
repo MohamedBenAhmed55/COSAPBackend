@@ -33,7 +33,9 @@ class CalendarController extends AbstractController
             );
             array_push($Data, $test);
         }
-        $JrFer= $em->getRepository(JoursFeries::class)->findAll();
+        $user1 =$em->getRepository(User::class)->findBy(['id' => $id]);
+        $comp = $user1[0]->getCompany()->getId();
+        $JrFer= $em->getRepository(JoursFeries::class)->findBy(['company' => $comp]);
 
         for($i = 0;$i<sizeof($JrFer);$i++){
             $test2 = array(
